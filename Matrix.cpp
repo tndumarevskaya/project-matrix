@@ -45,6 +45,15 @@ void PrintMatrix(MATRIX matr)
 	printf("\n\n");
 }
 
+MATRIX Error()
+{
+	MATRIX Error;
+	Error.mas = (int**)malloc(1 * sizeof(int*));
+	Error.mas[0] = (int*)malloc(1 * sizeof(int));
+	Error.mas[0][0] = -1;
+	return Error;
+}
+
 MATRIX Summation(MATRIX a, MATRIX b)
 {
 	MATRIX result;
@@ -60,7 +69,7 @@ MATRIX Summation(MATRIX a, MATRIX b)
 	if (a.n != b.n || a.m != b.m)
 	{
 		printf("Summation ERROR");
-
+		return Error();
 	}
 
 	for (int i = 0; i < result.n; i++)
@@ -85,7 +94,7 @@ MATRIX Subtraction(MATRIX a, MATRIX b)
 	if (a.n != b.n || a.m != b.m)
 	{
 		printf("Subtration ERROR");
-		
+		return Error();
 	}
 
 	for (int i = 0; i < result.n; i++)
@@ -130,7 +139,7 @@ MATRIX NaiveMultiplication(MATRIX matr1, MATRIX matr2)
 	if (!MultiplicationCheck(matr1, matr2))
 	{
 		printf("Multiplication ERROR");
-		//////
+		return Error();
 	}
 
 	MATRIX result;
@@ -341,6 +350,47 @@ void SuperTest()
 		FreeMemory(DnC);
 		FreeMemory(Strassen);
 	}
+}
+
+MATRIX VinogradMultiplication(MATRIX a, MATRIX b)
+{
+	if (!MultiplicationCheck(a, b))
+	{
+		printf("Multiplication ERROR");
+		return Error();
+	}
+	MATRIX result= SetMemory(a.n, b.m);
+
+	int* RowFactor = (int*)malloc(a.n * sizeof(int));
+	int* ColumnFactor = (int*)malloc(b.m * sizeof(int));
+
+	for (int i = 0; i < a.n; i++)
+		RowFactor[i] = 0;
+
+	for (int i = 0; i < b.m; i++)
+		ColumnFactor[i] = 0;
+
+	int d = b.n / 2;
+
+	int i = 0, j=0;
+
+	for ( i = 0; i < a.n; i++)
+		for (j = 0; j < d; j++)
+			RowFactor[i] = RowFactor[i] + a.mas[i][2 * j] * a.mas[i][2 * j + 1];
+
+	for (i = 0; i < b.m; i++)
+		for (j = 0; j < d; j++)
+			ColumnFactor[i] = ColumnFactor[i] + b.mas[2 * j][i] * b.mas[2 * j + 1][i];
+
+	for (i = 0; i < a.n; i++)
+		for (j = 0; j < b.m; j++)
+		{
+			result.mas[i][j] = -RowFactor[i] - ColumnFactor[j];
+			for (int k = 0; k < d; k++)
+				result.mas[i][j] = result.mas[i][j] + (a.mas[i][2 * k] + b.mas[2 * k + 1][j]) * (a.mas[i][2 * k + 1] + b.mas[2 * k][j]);
+		}
+
+	return result;
 }
 
 

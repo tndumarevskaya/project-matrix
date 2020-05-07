@@ -21,10 +21,9 @@ void FreeMemory(MATRIX math);
 MATRIX Transposion(MATRIX matr);
 
 MATRIX NaiveMultiplication(MATRIX matr1, MATRIX matr2);
-
 MATRIX SimpleDnCMultiplication(MATRIX a, MATRIX b);
-
 MATRIX StrassenMultiplication(MATRIX a, MATRIX b );
+MATRIX VinogradMultiplication(MATRIX a, MATRIX b);
 
 void SuperTest();
 #endif MATRIX_H
