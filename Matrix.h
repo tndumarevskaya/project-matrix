@@ -25,5 +25,8 @@ MATRIX SimpleDnCMultiplication(MATRIX a, MATRIX b);
 MATRIX StrassenMultiplication(MATRIX a, MATRIX b );
 MATRIX VinogradMultiplication(MATRIX a, MATRIX b);
 
+
+double AlgorithmTime(MATRIX a, MATRIX b, int Algorithm);
 void SuperTest();
+void TestingSystem();
 #endif MATRIX_H

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <math.h>
 #include "Matrix.h"
 
 
@@ -163,7 +164,7 @@ MATRIX NaiveMultiplication(MATRIX matr1, MATRIX matr2)
 
 MATRIX SimpleDnCMultiplication(MATRIX a, MATRIX b)
 {
-	if (a.n <= 1) 
+	if (a.n <= 128) 
 		return NaiveMultiplication(a, b);
 
 	int N = a.n / 2;
@@ -393,4 +394,99 @@ MATRIX VinogradMultiplication(MATRIX a, MATRIX b)
 	return result;
 }
 
+double AlgorithmTime(MATRIX a, MATRIX b, int Algorithm)
+{
+	
+	double start = clock(), ResultTime;
+	
+	switch (Algorithm)
+	{
+	case 0:
+		NaiveMultiplication(a, b);
+		break;
+	case 1:
+	    SimpleDnCMultiplication(a, b);
+		break;
+	case 2:
+		 StrassenMultiplication(a, b);
+		break;
+	case 3:
+	    VinogradMultiplication(a, b);
+		break;
+	}
 
+	ResultTime = (clock() - start) / CLOCKS_PER_SEC;
+	return ResultTime;
+}
+
+double FindAverageTime(double* mas, int Number)
+{
+	double average = 0;
+	for (int i = 0; i < Number; i++)
+		average += mas[i];
+	average = average /((double) Number);
+	return average;
+}
+
+void TestingSystem()
+{
+	int maxsize = 0, LeftBorder, RightBorder, NumberOfTests;
+
+	printf("Enter max size for testing(pow of 2)>>");
+	scanf("%d", &maxsize);
+
+	printf("\nEnter range of values\n");
+	printf("\nLeft Border>>");
+	scanf("%d", &LeftBorder);
+	printf("\nRight Border>>");
+	scanf("%d", &RightBorder);
+
+	if (RightBorder < LeftBorder)
+	{
+		printf("WRONG RANGE");
+		return;
+	}
+
+	printf("\nEnter number of tests>>");
+	scanf("%d", &NumberOfTests);
+
+	double i;
+
+	double* mas0 = (double*)malloc(NumberOfTests * sizeof(double));
+	double* mas1 = (double*)malloc(NumberOfTests * sizeof(double));
+	double* mas2 = (double*)malloc(NumberOfTests * sizeof(double));
+	double* mas3 = (double*)malloc(NumberOfTests * sizeof(double));
+
+	for (i = pow(2, 7); i <= pow(2, maxsize); i = i*2)              
+	{
+		int N = (int)i;
+		for (int j = 0; j < NumberOfTests; j++)
+		{
+			
+			MATRIX a = CreateRandomMatrix(LeftBorder, RightBorder, N, N);
+			MATRIX b = CreateRandomMatrix(LeftBorder, RightBorder, N, N);
+
+			mas0[j] = AlgorithmTime(a, b, 0);
+			mas1[j] = AlgorithmTime(a, b, 1);
+			mas2[j] = AlgorithmTime(a, b, 2);
+			mas3[j] = AlgorithmTime(a, b, 3);
+
+			FreeMemory(a);
+			FreeMemory(b);
+
+			
+		}
+
+		printf("\nSize of side: N = %d\n", N);
+		printf("Naive:     %.4lf\n", FindAverageTime(mas0, NumberOfTests));
+		printf("SimpleDnC: %.4lf\n", FindAverageTime(mas1, NumberOfTests));
+		printf("Strassen:  %.4lf\n", FindAverageTime(mas2, NumberOfTests));
+		printf("Vinograd:  %.4lf\n", FindAverageTime(mas3, NumberOfTests));
+
+	}
+
+	free(mas0);
+	free(mas1);
+	free(mas2);
+	free(mas3);
+}
