@@ -11,22 +11,16 @@ typedef struct matrix
 }MATRIX;
 
 
-MATRIX CreateRandomMatrix(int LeftBorder, int RightBorder, int n, int m );
-bool MultiplicationCheck(MATRIX a, MATRIX b);
-void PrintMatrix(MATRIX m);
-MATRIX Summation(MATRIX a, MATRIX b);
-MATRIX Subtraction(MATRIX a, MATRIX b);
-MATRIX SetMemory(int N, int M);
-void FreeMemory(MATRIX math);
-MATRIX Transposion(MATRIX matr);
-
-MATRIX NaiveMultiplication(MATRIX matr1, MATRIX matr2);
-MATRIX SimpleDnCMultiplication(MATRIX a, MATRIX b);
-MATRIX StrassenMultiplication(MATRIX a, MATRIX b );
-MATRIX VinogradMultiplication(MATRIX a, MATRIX b);
+void CreateRandomMatrix(MATRIX* matr,int LeftBorder, int RightBorder, int n, int m );
 
 
-double AlgorithmTime(MATRIX a, MATRIX b, int Algorithm);
-void SuperTest();
-void TestingSystem();
+MATRIX* Summation(MATRIX* a, MATRIX* b, MATRIX* result);
+MATRIX* Subtraction(MATRIX* a, MATRIX* b, MATRIX* result);
+void SetMemory(MATRIX* a, int N, int M);
+void FreeMemory(MATRIX* math);
+void PrintMatrix(MATRIX* matr);
+
+MATRIX* NaiveMultiplication(MATRIX* matr1, MATRIX* matr2, MATRIX* result);
+MATRIX* SimpleDnCMultiplication(MATRIX* a, MATRIX* b, MATRIX* result);
+
 #endif MATRIX_H
