@@ -1,12 +1,13 @@
-#ifndef MATRIX_H
-#define MATRIX_H
+
+#ifndef MATRIX_CPP_MATRIX_H
+#define MATRIX_CPP_MATRIX_H
 
 typedef struct matrix
 {
-	int n;
-	int m;
+    int n;
+    int m;
 
-	int** mas;
+    int** mas;
 
 }MATRIX;
 
@@ -29,4 +30,4 @@ MATRIX VinogradMultiplication(MATRIX a, MATRIX b);
 double AlgorithmTime(MATRIX a, MATRIX b, int Algorithm);
 void SuperTest();
 void TestingSystem();
-#endif MATRIX_H
+#endif
