@@ -18,13 +18,15 @@ MATRIX Summation(MATRIX a, MATRIX b);
 MATRIX Subtraction(MATRIX a, MATRIX b);
 MATRIX SetMemory(int N, int M);
 void FreeMemory(MATRIX math);
-MATRIX Transposion(MATRIX matr);
 
 MATRIX NaiveMultiplication(MATRIX matr1, MATRIX matr2);
-
 MATRIX SimpleDnCMultiplication(MATRIX a, MATRIX b);
-
 MATRIX StrassenMultiplication(MATRIX a, MATRIX b );
+MATRIX VinogradMultiplication(MATRIX a, MATRIX b);
 
-void SuperTest();
+
+double AlgorithmTime(MATRIX a, MATRIX b, int Algorithm);
+void TestCorrect();
+void TestingSystem();
+void TestNaiveAndVinograd();
 #endif MATRIX_H
